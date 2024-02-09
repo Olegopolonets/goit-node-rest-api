@@ -1,11 +1,11 @@
 import express from "express";
-import { getAllContacts } from "../controllers/contactsControllers.js";
+import { getAllContacts, getOneContact } from "../controllers/contactsControllers.js";
 
 const contactsRouter = express.Router();
 
 contactsRouter.get("/", getAllContacts);
 
-// contactsRouter.get("/:id", getOneContact);
+contactsRouter.get("/:id", getOneContact);
 
 // contactsRouter.delete("/:id", deleteContact);
 
