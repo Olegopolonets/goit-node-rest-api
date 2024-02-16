@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import mongoose from "mongoose";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
@@ -21,6 +22,16 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running. Use our API on port: 3000");
-});
+const DB_HOST =
+  "mongodb+srv://Oleh:U37vgw5uNtkQ2wIv@cluster0.ujrzrkb.mongodb.net/contacts-book?retryWrites=true&w=majority";
+mongoose
+  .connect(DB_HOST)
+  .then(() => {
+    app.listen(5000, () => {
+      console.log("Database connection successful. Use our API on port: 5000");
+    });
+  })
+  .catch((error) => {
+    console.log(error.message);
+    process.exit(1);
+  });
