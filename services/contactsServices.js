@@ -2,6 +2,8 @@ import Contact from "../models/Contact.js";
 
 export const listContacts = () => Contact.find();
 
+export const getContactsByFilter = (filter) => Contact.find(filter);
+
 export const getContactById = async (id) => {
   return Contact.findById(id);
 };
