@@ -5,9 +5,27 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const result = await contactsService.getContactsByFilter({ owner });
-  res.json(result);
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+  const result = await contactsService.getContactsByFilter({ owner }, { skip, limit });
+  const total = await contactsService.getContactsCountByFilter({ owner });
+  res.json({
+    total,
+    result,
+  });
 };
+
+// const getAllFoods = async (req, res) => {
+//   const { _id: owner } = req.user;
+//   const { page = 1, limit = 10 } = req.query;
+//   const skip = (page - 1) * limit;
+//   const result = await foodsServices.getFoodsByFilter({ owner }, { skip, limit });
+//   const total = await foodsServices.getFoodsCountByFilter({ owner });
+//   res.json({
+//       total,
+//       result,
+//   });
+// }
 
 const getOneContact = async (req, res) => {
   const { id } = req.params;
@@ -20,7 +38,8 @@ const getOneContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
   const { id } = req.params;
-  const result = await contactsService.removeContact(id);
+  const { _id: owner } = req.user;
+  const result = await contactsService.removeContactByFilter({ _id: id, owner });
   if (!result) {
     throw HttpError(404, `Not found`);
   }
@@ -36,7 +55,8 @@ const createContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
   const { id } = req.params;
-  const result = await contactsService.updateContactById(id, req.body);
+  const { _id: owner } = req.user;
+  const result = await contactsService.updateContactByFilter({ _id: id, owner }, req.body);
   if (!result) {
     throw HttpError(404, `Not found`);
   }
