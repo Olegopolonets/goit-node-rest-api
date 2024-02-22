@@ -1,4 +1,5 @@
 import * as authServices from "../services/authServices.js";
+import * as userServices from "../services/userServices.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import HttpError from "../helpers/HttpError.js";
@@ -8,7 +9,7 @@ const { JWT_SECRET } = process.env;
 
 const signup = async (req, res) => {
   const { email } = req.body;
-  const user = await authServices.findUser({ email });
+  const user = await userServices.findUser({ email });
   if (user) {
     throw HttpError(409, "Email in use");
   }
@@ -22,7 +23,7 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
-  const user = await authServices.findUser({ email });
+  const user = await userServices.findUser({ email });
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }
@@ -36,6 +37,7 @@ const signin = async (req, res) => {
   };
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
+  await authServices.setToken(user._id, token);
 
   res.json({
     token,
@@ -46,7 +48,27 @@ const signin = async (req, res) => {
   });
 };
 
+const getCurrent = async (req, res) => {
+  const { email, subscription } = req.user;
+
+  res.json({
+    email,
+    subscription,
+  });
+};
+
+const signout = async (req, res) => {
+  const { _id } = req.user;
+  await authServices.setToken(_id);
+
+  res.json({
+    message: "No Content",
+  });
+};
+
 export default {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
+  getCurrent: ctrlWrapper(getCurrent),
+  signout: ctrlWrapper(signout),
 };
