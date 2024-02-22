@@ -1,3 +1,3 @@
-import User from "../models/User";
+import User from "../models/User.js";
 
-export const signup = () => {};
+export const signup = (data) => User.create(data);
