@@ -5,7 +5,7 @@ import path from "path";
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
-const contactsDir = path.resolve("public", "contacts");
+const contactsDir = path.resolve("public", "avatars");
 
 const getAllContacts = async (req, res) => {
   const { _id: owner } = req.user;
@@ -44,7 +44,7 @@ const createContact = async (req, res) => {
   await fs.rename(oldPath, newPath);
 
   const { _id: owner } = req.user;
-  const photo = path.join("contacts", filename);
+  const photo = path.join("avatars", filename);
   const result = await contactsService.addContact({ ...req.body, photo, owner });
 
   res.status(201).json(result);
