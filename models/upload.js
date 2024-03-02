@@ -14,9 +14,9 @@ const storage = multer.diskStorage({
   },
 });
 
-// const limits = {
-//     fileSize: 1024 * 1024 * 5
-// };
+const limits = {
+  fileSize: 1024 * 1024 * 5,
+};
 
 // const fileFilter = (req, file, callback) => {
 //     const extenstion = file.originalname.split(".").pop();
