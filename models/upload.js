@@ -18,13 +18,13 @@ const limits = {
   fileSize: 1024 * 1024 * 5,
 };
 
-// const fileFilter = (req, file, callback) => {
-//     const extenstion = file.originalname.split(".").pop();
-//     if(extenstion === "exe"){
-//         return callback(HttpError(400, ".exe extension not allow"));
-//     }
-//     callback(null, true);
-// }
+const fileFilter = (req, file, callback) => {
+  const extenstion = file.originalname.split(".").pop();
+  if (extenstion === "exe") {
+    return callback(HttpError(400, ".exe extension not allow"));
+  }
+  callback(null, true);
+};
 
 // const upload = multer({
 //     storage,
