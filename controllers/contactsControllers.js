@@ -15,18 +15,6 @@ const getAllContacts = async (req, res) => {
   });
 };
 
-// const getAllFoods = async (req, res) => {
-//   const { _id: owner } = req.user;
-//   const { page = 1, limit = 10 } = req.query;
-//   const skip = (page - 1) * limit;
-//   const result = await foodsServices.getFoodsByFilter({ owner }, { skip, limit });
-//   const total = await foodsServices.getFoodsCountByFilter({ owner });
-//   res.json({
-//       total,
-//       result,
-//   });
-// }
-
 const getOneContact = async (req, res) => {
   const { id } = req.params;
   const result = await contactsService.getContactById(id);
@@ -47,10 +35,12 @@ const deleteContact = async (req, res) => {
 };
 
 const createContact = async (req, res) => {
-  const { _id: owner } = req.user;
-  const result = await contactsService.addContact({ ...req.body, owner });
+  console.log(req.body);
+  console.log(req.file);
+  // const { _id: owner } = req.user;
+  // const result = await contactsService.addContact({ ...req.body, owner });
 
-  res.status(201).json(result);
+  // res.status(201).json(result);
 };
 
 const updateContact = async (req, res) => {

@@ -12,6 +12,7 @@ import {
 
 import isValidId from "../middlewares/isValidId.js";
 import authtenticate from "../middlewares/authtenticate.js";
+import upload from "../middlewares/upload.js";
 
 const contactsRouter = express.Router();
 
@@ -23,7 +24,12 @@ contactsRouter.get("/:id", isValidId, contactsController.getOneContact);
 
 contactsRouter.delete("/:id", contactsController.deleteContact);
 
-contactsRouter.post("/", validateBody(createContactSchema), contactsController.createContact);
+contactsRouter.post(
+  "/",
+  upload.single("photo"),
+  validateBody(createContactSchema),
+  contactsController.createContact
+);
 
 contactsRouter.put(
   "/:id",
