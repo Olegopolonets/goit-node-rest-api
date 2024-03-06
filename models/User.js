@@ -24,6 +24,10 @@ const userSchema = new Schema(
       default: null,
       minlength: 3,
     },
+    photo: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
