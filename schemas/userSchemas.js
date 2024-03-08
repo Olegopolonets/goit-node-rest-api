@@ -27,8 +27,8 @@ export const signinSchema = Joi.object({
   }),
 });
 
-// export const verifySchema = Joi.object({
-//   email: Joi.string().email().required().messages({
-//     "any.required": "Enter email",
-//   }),
-// });
+export const verifySchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    "any.required": "Enter email",
+  }),
+});
